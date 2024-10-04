@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Advanced Engineering Scientific Calculator</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #1c1c1c;
+            font-family: 'Courier New', Courier, monospace;
+            color: #ffffff;
+            margin: 0;
+        }
+        .calculator {
+            background-color: #2b2b2b;
+            padding: 10px;
+            border-radius: 15px;
+            box-shadow: 0 0 20px rgba(255, 255, 255, 0.2), 0 0 30px rgba(255, 255, 255, 0.1);
+            max-width: 100%;
+            width: 350px;
+            height: 80vh;
+            display: flex;
+            flex-direction: column;
+        }
+        .display {
+            width: auto;
+            height: 40px;
+            margin-bottom: 8px;
+            padding: 10px;
+            text-align: right;
+            font-size: 18px;
+            color: #000000;
+            background-color: #e5e4e2;
+            border: none;
+            border-radius: 8px;
+            box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.2);
+        }
+        .buttons {
+            flex-grow: 1;
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 5px;
+            overflow: hidden;
+        }
+        .buttons button {
+            padding: 8px;
+            font-size: 14px;
+            border-radius: 6px;
+            border: none;
+            background-color: #3c3c3c;
+            color: #ffffff;
+            cursor: pointer;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+            transition: background-color 0.3s, transform 0.3s;
+        }
+        .buttons button:hover {
+            background-color: #5c5c5c;
+            transform: scale(1.05);
+        }
+        .buttons button.special {
+            background-color: #5a5a5a;
+            color: #ffffff;
+        }
+        .buttons button.special:hover {
+            background-color: #7a7a7a;
+        }
+        .buttons button.equal {
+            background-color: #ff4500;
+            color: #ffffff;
+            grid-column: span 4;
+        }
+        .buttons button.equal:hover {
+            background-color: #ff6347;
+        }
+        .section-title {
+            grid-column: span 4;
+            text-align: center;
+            font-size: 12px;
+            color: #dcdcdc;
+            margin: 3px 0;
+        }
+        .nav-buttons {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 8px;
+        }
+        .nav-buttons button {
+            padding: 5px;
+            font-size: 14px;
+            border-radius: 5px;
+            border: none;
+            background-color: #3c3c3c;
+            color: #ffffff;
+            cursor: pointer;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+            transition: background-color 0.3s;
+        }
+        .nav-buttons button:hover {
+            background-color: #5c5c5c;
+        }
+        /* Styles for Age Calculator */
+        .age-calculator {
+            grid-column: span 4;
+            background-color: #3c3c3c;
+            padding: 8px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+        }
+        .age-calculator input {
+            width: 100%;
+            padding: 5px;
+            margin: 3px 0;
+            font-size: 14px;
+            border-radius: 5px;
+            border: none;
+            text-align: center;
+        }
+        .age-calculator button {
+            width: 100%;
+            padding: 5px;
+            font-size: 14px;
+            border-radius: 5px;
+            border: none;
+            background-color: #ff4500;
+            color: #ffffff;
+            cursor: pointer;
+            margin-top: 3px;
+            transition: background-color 0.3s;
+        }
+        .age-calculator button:hover {
+            background-color: #ff6347;
+        }
+    </style>
+</head>
+<body>
+
+<div class="calculator">
+    <div class="nav-buttons">
+        <button onclick="showPage(1)">Basic</button>
+        <button onclick="showPage(2)">Scientific</button>
+        <button onclick="showPage(3)">Conversions</button>
+    </div>
+    <input type="text" class="display" id="display" disabled>
+    <div id="page1" class="buttons">
+        <!-- Basic Arithmetic -->
+        <div class="section-title">Basic Arithmetic</div>
+        <button class="special" onclick="clearDisplay()">C</button>
+        <button class="special" onclick="deleteNumber()">DEL</button>
+        <button class="special" onclick="appendOperator('(')">(</button>
+        <button class="special" onclick="appendOperator(')')">)</button>
+        <button class="special" onclick="appendOperator('/')">÷</button>
+        <button class="special" onclick="appendFunction('Math.sqrt(')">√x</button>
+        <button class="special" onclick="appendFunction('factorial(')">n!</button>
+        
+        <button class="special" onclick="appendFunction('Math.pow(10,')">10^x</button>
+        <button class="special" onclick="appendOperator('*')">×</button>
+        
+        <button onclick="appendNumber('7')">7</button>
+        <button onclick="appendNumber('8')">8</button>
+        <button onclick="appendNumber('9')">9</button>
+        <button class="special" onclick="appendOperator('+')">+</button>
+       
+    
+        <button onclick="appendNumber('4')">4</button>
+        <button onclick="appendNumber('5')">5</button>
+        <button onclick="appendNumber('6')">6</button>
+       
+        <button class="special" onclick="appendOperator('-')">-</button>
+       
+        <button onclick="appendNumber('1')">1</button>
+        <button onclick="appendNumber('2')">2</button>
+        <button onclick="appendNumber('3')">3</button>
+        <button class="special" onclick="appendOperator('%')">%</button>
+        <button class="special" onclick="appendFunction('Math.PI')">π</button>
+        
+        
+        
+        <button onclick="appendNumber('0')">0</button>
+        <button onclick="appendOperator('.')">.</button>
+
+         <!-- Added π -->
+        <button class="equal" onclick="calculate()">=</button>
+    </div>
+    <div id="page2" class="buttons" style="display:none;">
+        <!-- Scientific Operations -->
+        <div class="section-title">Trigonometric Functions</div>
+        <button class="special" onclick="appendFunction('Math.sin(')">sin</button>
+        <button class="special" onclick="appendFunction('Math.cos(')">cos</button>
+        <button class="special" onclick="appendFunction('Math.tan(')">tan</button>
+        <button class="special" onclick="appendFunction('Math.asin(')">asin</button>
+        <button class="special" onclick="appendFunction('Math.acos(')">acos</button>
+        <button class="special" onclick="appendFunction('Math.atan(')">atan</button>
+        <button class="special" onclick="appendFunction('Math.sinh(')">sinh</button>
+        <button class="special" onclick="appendFunction('Math.cosh(')">cosh</button>
+        <button class="special" onclick="appendFunction('Math.tanh(')">tanh</button>
+
+        <div class="section-title">Logarithmic & Exponential</div>
+        <button class="special" onclick="appendFunction('Math.log(')">ln</button>
+        <button class="special" onclick="appendFunction('Math.log10(')">log</button>
+        <button class="special" onclick="appendFunction('Math.exp(')">e^x</button>
+        <button class="special" onclick="appendFunction('Math.pow(2,')">2^x</button>
+
+        <div class="section-title">Power & Roots</div>
+        <button class="special" onclick="appendFunction('Math.pow(')">x^y</button>
+        <button class="special" onclick="appendFunction('Math.pow(x, 1/y)')">y√x</button>
+
+        <div class="section-title">Constants</div>
+        <button class="special" onclick="appendFunction('Math.PI')">π</button>
+        <button class="special" onclick="appendFunction('Math.E')">e</button>
+
+        <div class="section-title">Miscellaneous</div>
+        <button class="special" onclick="appendFunction('Math.abs(')">|x|</button>
+        <button class="special" onclick="appendFunction('Math.ceil(')">ceil</button>
+        <button class="special" onclick="appendFunction('Math.floor(')">floor</button>
+        <button class="special" onclick="appendFunction('Math.round(')">round</button>
+    </div>
+    <div id="page3" class="buttons" style="display:none;">
+        <!-- Conversion Functions -->
+        <div class="section-title">Number Conversions</div>
+        <button class="special" onclick="convertToBinary()">Dec to Bin</button>
+        <button class="special" onclick="convertToOctal()">Dec to Oct</button>
+        <button class="special" onclick="convertToHex()">Dec to Hex</button>
+        <button class="special" onclick="convertFromBinary()">Bin to Dec</button>
+        <button class="special" onclick="convertFromOctal()">Oct to Dec</button>
+        <button class="special" onclick="convertFromHex()">Hex to Dec</button>
+
+        <div class="section-title">Angle Conversions</div>
+        <button class="special" onclick="degreesToRadians()">Deg to Rad</button>
+        <button class="special" onclick="radiansToDegrees()">Rad to Deg</button>
+
+        <div class="section-title">Miscellaneous Conversions</div>
+        <button class="special" onclick="calculateAge()">Calculate Age</button>
+    </div>
+</div>
+
+<script>
+    function showPage(page) {
+        document.getElementById('page1').style.display = page === 1 ? 'grid' : 'none';
+        document.getElementById('page2').style.display = page === 2 ? 'grid' : 'none';
+        document.getElementById('page3').style.display = page === 3 ? 'grid' : 'none';
+    }
+
+    function appendNumber(number) {
+        document.getElementById("display").value += number;
+    }
+
+    function appendOperator(operator) {
+        document.getElementById("display").value += operator;
+    }
+
+    function appendFunction(func) {
+        document.getElementById("display").value += func;
+    }
+
+    function clearDisplay() {
+        document.getElementById("display").value = '';
+    }
+
+    function deleteNumber() {
+        const display = document.getElementById("display");
+        display.value = display.value.slice(0, -1);
+    }
+
+    function calculate() {
+        try {
+            const result = eval(document.getElementById("display").value);
+            document.getElementById("display").value = result;
+        } catch {
+            document.getElementById("display").value = "Error";
+        }
+    }
+
+    // Conversion Functions
+    function convertToBinary() {
+        const decimal = parseInt(document.getElementById("display").value, 10);
+        document.getElementById("display").value = decimal.toString(2);
+    }
+
+    function convertToOctal() {
+        const decimal = parseInt(document.getElementById("display").value, 10);
+        document.getElementById("display").value = decimal.toString(8);
+    }
+
+    function convertToHex() {
+        const decimal = parseInt(document.getElementById("display").value, 10);
+        document.getElementById("display").value = decimal.toString(16).toUpperCase();
+    }
+
+    function convertFromBinary() {
+        const binary = document.getElementById("display").value;
+        document.getElementById("display").value = parseInt(binary, 2).toString(10);
+    }
+
+    function convertFromOctal() {
+        const octal = document.getElementById("display").value;
+        document.getElementById("display").value = parseInt(octal, 8).toString(10);
+    }
+
+    function convertFromHex() {
+        const hex = document.getElementById("display").value;
+        document.getElementById("display").value = parseInt(hex, 16).toString(10);
+    }
+
+    // Angle Conversions
+    function degreesToRadians() {
+        const degrees = parseFloat(document.getElementById("display").value);
+        const radians = degrees * (Math.PI / 180);
+        document.getElementById("display").value = radians;
+    }
+
+    function radiansToDegrees() {
+        const radians = parseFloat(document.getElementById("display").value);
+        const degrees = radians * (180 / Math.PI);
+        document.getElementById("display").value = degrees;
+    }
+
+    // Age Calculator
+    function calculateAge() {
+        const birthDate = prompt("Enter birth date (YYYY-MM-DD):");
+        const birthDateObj = new Date(birthDate);
+        const today = new Date();
+        let age = today.getFullYear() - birthDateObj.getFullYear();
+        const monthDifference = today.getMonth() - birthDateObj.getMonth();
+        if (monthDifference < 0 || (monthDifference === 0 && today.getDate() < birthDateObj.getDate())) {
+            age--;
+        }
+        document.getElementById("display").value = age;
+    }
+</script>
+
+</body>
+</html>
